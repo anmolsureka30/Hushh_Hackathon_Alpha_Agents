@@ -6,13 +6,13 @@ from hushh_mcp.constants import ConsentScope
 
 # Intent to consent scope mapping table (modular, using ConsentScope enum)
 INTENT_TO_SCOPE = {
-    "reschedule_event": ConsentScope.AGENT_CALENDAR_WRITE.value,
-    "detect_slots": ConsentScope.AGENT_CALENDAR_READ.value,
-    "suggest_schedule": ConsentScope.AGENT_CALENDAR_READ.value,
+    "reschedule_event": ConsentScope.AGENT_GCAL_WRITE.value,
+    "detect_slots": ConsentScope.AGENT_GCAL_READ.value,
+    "suggest_schedule": ConsentScope.AGENT_GCAL_READ.value,
     # Add more mappings as needed, always using ConsentScope enum
 }
 
-async def resolve_consent_scope(intent: str, tool_context: Optional[ToolContext] = None) -> Optional[str]:
+async def find_consent_scope(intent: str, tool_context: Optional[ToolContext] = None) -> Optional[str]:
     """
     Maps an intent string to the minimum required consent scope using ConsentScope enum.
 

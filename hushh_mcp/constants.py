@@ -16,8 +16,7 @@ class ConsentScope(str, Enum):
     AGENT_FINANCE_ANALYZE = "agent.finance.analyze"
     AGENT_IDENTITY_VERIFY = "agent.identity.verify"
     AGENT_SALES_OPTIMIZE = "agent.sales.optimize"
-    AGENT_CALENDAR_READ = "agent.calendar.read"
-    AGENT_CALENDAR_WRITE = "agent.calendar.write"
+    
     AGENT_GCAL_READ = "agent.gcal.read"
     AGENT_GCAL_WRITE = "agent.gcal.write"
 
