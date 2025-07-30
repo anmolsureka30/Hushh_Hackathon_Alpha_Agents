@@ -16,7 +16,7 @@ async def generate_consent_token(
     Issues a scoped consent token for a user and agent using the ConsentScope enum.
 
     Args:
-        user_id (str): The user who is granting consent.
+        user_id (str): The email id of the user who is granting consent.
         agent_id (str): The agent being authorized.
         scope (str): The scope of access (should match ConsentScope values).
         tool_context (ToolContext, optional): The function context (for artifact saving).
