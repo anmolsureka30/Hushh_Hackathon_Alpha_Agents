@@ -37,6 +37,8 @@ def create_event(user_id, consent_token, event_data, calendar_id=None):
         "consent_token": consent_token,
         "event_data": event_data,
     }
+
+    payload = LLMpayload
     if calendar_id: payload["calendar_id"] = calendar_id
     resp = requests.post(f"{MCP_BASE_URL}/create-event", json=payload)
     resp.raise_for_status()
@@ -50,7 +52,7 @@ def update_event(user_id, consent_token, event_id, update_data, calendar_id=None
         "update_data": update_data,
     }
     if calendar_id: payload["calendar_id"] = calendar_id
-    resp = requests.post(f"{MCP_BASE_URL}/update-event", json=payload)
+    resp = requests.post(f"{MCP_BASE_URL}", json=payload)
     resp.raise_for_status()
     return resp.json()
 
