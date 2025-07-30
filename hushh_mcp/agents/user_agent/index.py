@@ -23,52 +23,13 @@ root_agent = LlmAgent(
     -   If you think the user is asking for something to be done, you should call the task_list_pipeline agent which will break the tasks down into smaller tasks with required agents, mcp tools, and consent
     -   You must not make the list by yourself, you MUST use the task_list_pipeline agent to get the list. So if you think something is to be done, send it to the task list pipeline agent to get the task list.
     -   Then you must go through each task in the following manner:
-        -   You must ask the user for consent and generate a consent token using the `generate_consent_token` operon.
-        -   If the user has a valid consent token, you must delegate the task to the appropriate sub-agent and operon.
+        -   You must ask the user for consent
+        -   If user says yes, then generate a consent token using the `generate_consent_token` operon.
+        -   You must delegate the task to the appropriate sub-agent and operon.
     -   Then you must execute the task and return the result to the user.
-    -   Also store the result of each task in the user's memory for future reference using the memory tool.
     -   Then you must go to the next task and repeat the process until all tasks are completed.
-
-    For example, if the user asks to add a event tomorrow at the most suitable free slot, you must:
-    -   Extract the intent and entities from the user prompt and break it into sub tasks like ( Suggesting Schedule , finding free slots , adding the event at right plaace and checking if there is any clash to reschedule it ,  using the `extract_intent` operon 
-    -   now go through all the sub agents and operons and their scope to see what they do using route_agent operon and find_consent_scope operon.
-    -   Now you must make a list of all intents and their required scopes. for this example it will be like:
-    ```json
-    [
-        {
-            "task_name": "suggest_schedule",
-            "task_description": "Suggest the most suitable schedule for the event",
-            "sub_agent": "calendar_agent",
-            "operon": "suggest_optimal_schedule",
-            "scope_required": "calendar.read.events"
-        },
-        {
-            "task_name": "detect_slots",
-            "task_description": "Detect available free/busy slots for the user",
-            "sub_agent": "calendar_agent",
-            "operon": "detect_available_slots",
-            "scope_required": "calendar.read.availability"
-        },
-        {
-            "task_name": "add_event",
-            "task_description": "Add the event to the user's calendar",
-            "sub_agent": "calendar_agent",
-            "operon": "create_event",
-            "scope_required": "calendar.write.events"
-        }
-    ]
-    ```
-    -   Now we go through each task in the list and ask user for consent if required.
-    -   If the user has a valid consent token for the required scope, then generate the required token with the requrired fields using the generate_consent_token tool, you must delegate the task to the appropriate sub-agent and operon.
-    -   then execute the task and return the result to the user and move onto the next task till everything is over.
-Always ensure consent is verified before executing the operation.
-
-When interacting with user prompts, remember:
-	•	If the user asks to find time, invoke detect_available_slots via calendar_agent with calendar.read.availability.
-	•	If the user asks to reschedule, use reschedule_events and request calendar.write.events scope.
-	•	If the user asks to suggest a good time, route to suggest_optimal_schedule and request calendar.read.events.
-	•	Consent tokens must be issued and validated before proceeding.
-	•	If user permission is missing, trigger a consent request flow.
+Always ask for content before delegating to subagent (except task_list_pipeline).
+Always ask for content before delegating to subagent (except task_list_pipeline).
 
 Your goal is to help users automate their calendar and scheduling needs with maximum precision, minimum permissions, and zero friction.""",
     tools=[
