@@ -23,42 +23,42 @@ calendar_agent = LlmAgent(
         FunctionTool(
             func=detect_available_slots,
         ),
-        MCPToolset(
-            connection_params=StdioConnectionParams(server_params={
-                    "command": "npx",
-                    "args": ["@cocal/google-calendar-mcp"],
-                    "env": {
-                        "GOOGLE_OAUTH_CREDENTIALS": "/Users/arnavprasad/Desktop/gcp-oauth.keys.json"
-                    },
-            }
-            ),
-            # You can filter for specific Maps tools if needed:
-            # tool_filter=['get_directions', 'find_place_by_id']
-        )
         # MCPToolset(
-        #     connection_params=StreamableHTTPServerParams(
-        #         url='http://localhost:3000/',
+        #     connection_params=StdioConnectionParams(server_params={
+        #             "command": "npx",
+        #             "args": ["@cocal/google-calendar-mcp"],
+        #             "env": {
+        #                 "GOOGLE_OAUTH_CREDENTIALS": "/Users/arnavprasad/Desktop/gcp-oauth.keys.json"
+        #             },
+        #     }
         #     ),
-        #     # don't want agent to do write operation
-        #     # you can also do below
-        #     # tool_filter=lambda tool, ctx=None: tool.name
-        #     # not in [
-        #     #     'write_file',
-        #     #     'edit_file',
-        #     #     'create_directory',
-        #     #     'move_file',
-        #     # ],
-        #     tool_filter=[
-        #         'list-calendars',
-        #         'list-events',
-        #         'search-events',
-        #         'create-event',
-        #         'update-event',
-        #         'delete-event',
-        #         'get-freebusy',
-        #         'list-colors',
-        #     ],
+        #     # You can filter for specific Maps tools if needed:
+        #     # tool_filter=['get_directions', 'find_place_by_id']
         # )
+        MCPToolset(
+            connection_params=StreamableHTTPServerParams(
+                url='http://localhost:3000/',
+            ),
+            # don't want agent to do write operation
+            # you can also do below
+            # tool_filter=lambda tool, ctx=None: tool.name
+            # not in [
+            #     'write_file',
+            #     'edit_file',
+            #     'create_directory',
+            #     'move_file',
+            # ],
+            tool_filter=[
+                'list-calendars',
+                'list-events',
+                'search-events',
+                'create-event',
+                'update-event',
+                'delete-event',
+                'get-freebusy',
+                'list-colors',
+            ],
+        )
     ],
 )
 
