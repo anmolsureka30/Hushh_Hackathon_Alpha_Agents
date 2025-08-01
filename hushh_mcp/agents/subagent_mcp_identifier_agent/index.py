@@ -1,4 +1,6 @@
 from google.adk.agents import LlmAgent
+from google.adk.tools import FunctionTool
+from hushh_mcp.agents.calendar_agent.utils import calendar_mcp_tool
 
 
 subagent_mcp_identifier_agent = LlmAgent(
@@ -9,6 +11,7 @@ subagent_mcp_identifier_agent = LlmAgent(
 
 **PRIMARY MISSION:**
 Convert analyzed intents into optimally sequenced atomic tasks that can be executed by specialized sub-agents.
+Use the list_all_tools action in calendar_mcp_tool function, this will give you all the data of the google calendar mcp tools, from this you can decide which agent and tool to call for each task's execution.
 
 You should pass this list to the next third and final sub agent in the Task List Maker Sequential Agent which will be responsible to look at the tasks and what tools/sub agents they access and give each of them a consent scope value.
 
@@ -19,6 +22,12 @@ Your list should look something like this
 and so on
 
 """,
+    tools=[
+        FunctionTool(
+            func=calendar_mcp_tool,
+        )
+    ],
+
 output_key="task_list"
     # instruction and tools will be added next
 )

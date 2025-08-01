@@ -1,6 +1,6 @@
 venv/
 adk-web/
-external_mcps
+external_mcps/
 .env
 .pytest_cache/
 external_mcps/

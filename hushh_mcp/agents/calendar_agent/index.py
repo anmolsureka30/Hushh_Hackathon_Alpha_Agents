@@ -7,7 +7,7 @@ from hushh_mcp.operons.detect_slots import detect_available_slots
 from google.adk.agents import LlmAgent
 from google.adk.tools import google_search
 from google.adk.tools import FunctionTool
-from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
+from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset, StdioConnectionParams
 from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPServerParams
 
 calendar_agent = LlmAgent(
@@ -24,29 +24,41 @@ calendar_agent = LlmAgent(
             func=detect_available_slots,
         ),
         MCPToolset(
-            connection_params=StreamableHTTPServerParams(
-                url='http://localhost:3000/',
+            connection_params=StdioConnectionParams(server_params={
+                    "command": "npx",
+                    "args": ["@cocal/google-calendar-mcp"],
+                    "env": {
+                        "GOOGLE_OAUTH_CREDENTIALS": "/Users/arnavprasad/Desktop/gcp-oauth.keys.json"
+                    },
+            }
             ),
-            # don't want agent to do write operation
-            # you can also do below
-            # tool_filter=lambda tool, ctx=None: tool.name
-            # not in [
-            #     'write_file',
-            #     'edit_file',
-            #     'create_directory',
-            #     'move_file',
-            # ],
-            tool_filter=[
-                'list-calendars',
-                'list-events',
-                'search-events',
-                'create-event',
-                'update-event',
-                'delete-event',
-                'get-freebusy',
-                'list-colors',
-            ],
+            # You can filter for specific Maps tools if needed:
+            # tool_filter=['get_directions', 'find_place_by_id']
         )
+        # MCPToolset(
+        #     connection_params=StreamableHTTPServerParams(
+        #         url='http://localhost:3000/',
+        #     ),
+        #     # don't want agent to do write operation
+        #     # you can also do below
+        #     # tool_filter=lambda tool, ctx=None: tool.name
+        #     # not in [
+        #     #     'write_file',
+        #     #     'edit_file',
+        #     #     'create_directory',
+        #     #     'move_file',
+        #     # ],
+        #     tool_filter=[
+        #         'list-calendars',
+        #         'list-events',
+        #         'search-events',
+        #         'create-event',
+        #         'update-event',
+        #         'delete-event',
+        #         'get-freebusy',
+        #         'list-colors',
+        #     ],
+        # )
     ],
 )
 
