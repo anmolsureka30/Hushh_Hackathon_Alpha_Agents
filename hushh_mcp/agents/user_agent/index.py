@@ -1,3 +1,5 @@
+# agents/user_agent.py
+
 from hushh_mcp.consent.token import validate_token
 from hushh_mcp.constants import ConsentScope
 from google.adk.agents import LlmAgent, BaseAgent
