@@ -12,8 +12,7 @@ scope_indentifier_agent = LlmAgent(
 Ensure each task has minimal, necessary permissions while maintaining security and privacy principles throughout the execution chain.
 The function calendar_mcp_tool is used to check the information about a specific mcp tool, including its name, description, and required consent scopes.
 Always use the get_scope_for_tool action in this function to get the required consent scope for the mcp tools.
-
-
+do not hallucinate on the scopes, only get scopes from the calendar_mcp_tool(action = get_scope_for_tool)
 
 The list should look something like this:
 1. One line summary of task 1, sub agent required for the task, mcp tool required for the task, require scope

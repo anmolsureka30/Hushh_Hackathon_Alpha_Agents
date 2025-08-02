@@ -4,3 +4,4 @@ external_mcps/
 .env
 .pytest_cache/
 external_mcps/
+gcp-oauth.keys.json
