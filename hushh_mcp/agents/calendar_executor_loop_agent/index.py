@@ -1,8 +1,5 @@
 from google.adk.agents import LlmAgent , LoopAgent
-from google.adk.tools import google_search
 from google.adk.tools import FunctionTool
-from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
-from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPServerParams
 from hushh_mcp.operons.fetch_date_time import fetch_date_time
 from hushh_mcp.agents.trustlink_agent import trustlink_agent
 from hushh_mcp.agents.calendar_agent import calendar_agent 
@@ -15,13 +12,11 @@ calendar_executor_loop_agent = LoopAgent(
         FunctionTool(
             func=fetch_date_time,
         ),
-        
     ],
     # Agent order is crucial: Critique first, then Refine/Exit
     sub_agents=[
         trustlink_agent,
         calendar_agent
-
     ],
     max_iterations=10 # Limit loops
 )
