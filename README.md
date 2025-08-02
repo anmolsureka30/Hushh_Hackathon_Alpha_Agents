@@ -1,5 +1,32 @@
 # Consent-Driven Calendar Agentic System
 
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- Docker (for Google Calendar MCP server)
+- Google ADK installed
+- Hush consent framework
+- Google Calendar API credentials
+
+### Installation
+
+1. Clone the repository
+
+2. Clone the MCP server in HTTP mode and run it on docker following these steps https://github.com/nspady/google-calendar-mcp/blob/main/docs/docker.md
+3. Clone web adk from https://github.com/google/adk-web
+3. Set up Google Calendar MCP server:
+   ```bash
+   docker run -p 3000:3000 [calendar-mcp-server]
+   ```
+4. Configure authentication credentials
+5. Run the system:
+   ```bash
+   python agents/user_agent.py
+   ```
+
+
 ## 🏆 Hackathon Project Overview
 
 This project was developed for a hackathon focused on implementing **Hush's consent protocol** into agentic systems. Our team created a sophisticated calendar management system that prioritizes user consent at every step, ensuring that AI agents only perform actions with explicit user permission.
@@ -136,32 +163,6 @@ We developed several custom operons (functions), although in our project we only
 - `fetch_date_time`: Provides current temporal context
 - `calendar_mcp_tool`: Tool registry and metadata management
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.8+
-- Docker (for Google Calendar MCP server)
-- Google ADK installed
-- Hush consent framework
-- Google Calendar API credentials
-
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   pip install google-adk hushh-mcp
-   ```
-3. Set up Google Calendar MCP server:
-   ```bash
-   docker run -p 3000:3000 [calendar-mcp-server]
-   ```
-4. Configure authentication credentials
-5. Run the system:
-   ```bash
-   python agents/user_agent.py
-   ```
 
 ## 📋 Usage Examples
 

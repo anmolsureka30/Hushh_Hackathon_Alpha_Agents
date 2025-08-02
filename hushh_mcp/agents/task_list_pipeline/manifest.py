@@ -1,7 +1,7 @@
 manifest = {
-    "id": "agent_finance_assistant",
-    "name": "Finance Assistant",
-    "description": "Helps user analyze expenses securely.",
-    "scopes": ["vault.read.finance", "vault.read.email"],
+    "id": "task_list_pipeline",
+    "name": "Task List Pipeline Agent",
+    "description": "Manages and processes task lists through various agents.",
+    "scopes": [],
     "version": "0.1.0"
 }
