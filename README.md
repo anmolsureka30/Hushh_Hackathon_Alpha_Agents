@@ -22,7 +22,7 @@
    - Create your own OAuth2 keys following Google's authentication documentation
    - Configure the necessary API credentials for Google Calendar and other Google services
    - Update your environment variables accordingly
-### Google Cloud Setup
+   #### Google Cloud Setup
    - Go to the Google Cloud Console
    - Create a new project or select an existing one.
    - Enable the Google Calendar API for your project. Ensure that the right project is selected from the top bar before enabling the API.
@@ -39,22 +39,68 @@
    - Note: it might take a few minutes for the test user to be added. The OAuth consent will not allow you to proceed until the test user has propagated.
    - Note about test mode: While an app is in test mode the auth tokens will expire after 1 week and need to be refreshed.
 
-3. **Clone the Google Calendar MCP server**
+3. **Clone and Run the Google Calendar MCP server**
+
+   Follow the Docker setup instructions for the Google Calendar MCP server. 
+   Important- Follow the steps for HTTP mode:
+   https://github.com/nspady/google-calendar-mcp/blob/main/docs/docker.md
+
+   #### HTTP Mode:
    ```bash
    cd external_mcps
    git clone https://github.com/nspady/google-calendar-mcp.git
-   cd ..
+   cd google-calendar-mcp
+
+   # Place your OAuth credentials in the project root
+   cp /path/to/your/gcp-oauth.keys.json ./gcp-oauth.keys.json
+
+   # Configure for HTTP mode
+   cp .env.example .env
+   # Edit .env to set:
+   echo "TRANSPORT=http" >> .env
+   echo "HOST=0.0.0.0" >> .env
+   echo "PORT=3000" >> .env
+   echo "GOOGLE_OAUTH_CREDENTIALS=./gcp-oauth.keys.json" >> .env
    ```
 
-4. **Set up and run the MCP server**
-   Follow the Docker setup instructions for the Google Calendar MCP server.:
-   https://github.com/nspady/google-calendar-mcp/blob/main/docs/docker.md
+   Go to your running docker container and run this command:
+   ```bash
+   npm start
+   ```
+
+   #### Start and Authenticate
+   ```bash
+   # Build and start the server in HTTP mode
+   docker compose up -d
+
+   # Authenticate (one-time setup)
+   docker compose exec calendar-mcp npm run auth
+   # This will show authentication URLs (visit the displayed URL)
+   # This step only needs to be done once unless the app is in testing mode
+   # in which case the tokens expire after 7 days 
+
+   # Verify server is running
+   curl http://localhost:3000/health
+   # Should return: {"status":"healthy","server":"google-calendar-mcp","version":"1.3.0"}
+   ```
+
+4. **Install project dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 5. **Clone and set up the Google ADK Web**
    ```bash
    git clone https://github.com/google/adk-web.git
    cd adk-web
    ```
+   Now we copy our user agent script into the agent.py for google adk web interface:
+   ```bash
+   touch agent.py
+   cp ../hushh_mcp/agents/user_agent/index.py agent.py
+   ```
+
+
    ```bash
    sudo npm install
    ```
@@ -68,10 +114,6 @@
    Follow the documentation in the ADK Web repository to run the ADK web server in case you get stuck.
 
 
-6. **Install project dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
 
 **Note:** Make sure you have Docker installed for running the MCP server, and follow the specific setup instructions in each cloned repository's documentation.
 
