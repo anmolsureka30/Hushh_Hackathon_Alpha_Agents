@@ -1,6 +1,5 @@
 from hushh_mcp.consent.token import validate_token
 from hushh_mcp.constants import ConsentScope
-from hushh_mcp.operons.gcal_sync import get_freebusy
 from hushh_mcp.operons.suggest_schedule import suggest_optimal_schedule
 from hushh_mcp.operons.detect_slots import detect_available_slots
 from hushh_mcp.operons.validate_trustlink import validate_trustlink
