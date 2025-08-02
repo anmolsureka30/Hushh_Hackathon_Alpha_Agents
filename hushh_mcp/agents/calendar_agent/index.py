@@ -3,6 +3,7 @@ from hushh_mcp.constants import ConsentScope
 from hushh_mcp.operons.gcal_sync import get_freebusy
 from hushh_mcp.operons.suggest_schedule import suggest_optimal_schedule
 from hushh_mcp.operons.detect_slots import detect_available_slots
+from hushh_mcp.operons.validate_trustlink import validate_trustlink
 
 from google.adk.agents import LlmAgent
 from google.adk.tools import google_search
@@ -18,11 +19,11 @@ calendar_agent = LlmAgent(
     # tools=[google_search] add mcp here
     tools=[
         FunctionTool(
-            func=suggest_optimal_schedule,
+            func=validate_trustlink,
         ),
-        FunctionTool(
-            func=detect_available_slots,
-        ),
+        # FunctionTool(
+        #     func=detect_available_slots,
+        # ),
         # MCPToolset(
         #     connection_params=StdioConnectionParams(server_params={
         #             "command": "npx",

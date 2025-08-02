@@ -2,7 +2,7 @@ from google.adk.agents import LlmAgent
 from google.adk.tools import FunctionTool
 from hushh_mcp.operons.generate_trustlink import generate_trustlink  
 
-scope_indentifier_agent = LlmAgent(
+trustlink_agent = LlmAgent(
     model="gemini-2.0-flash",
     name="trustlink_agent",
     description = """
@@ -10,7 +10,7 @@ You are the Trustlink Agent, responsible for generating trustlinks after user co
 """,
     tools=[
         FunctionTool(
-            func=generate_trustlink,  # Assuming generate_trustlink is defined elsewhere
+            func=generate_trustlink,  
         )
     ],
 )
