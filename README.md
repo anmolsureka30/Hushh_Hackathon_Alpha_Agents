@@ -129,7 +129,7 @@ Our system supports the following Google Calendar operations:
 
 ### Custom Operons
 
-We developed several custom operons (functions) for system operations:
+We developed several custom operons (functions), although in our project we only use some of these for system operations:
 
 - `generate_trustlink`: Creates secure delegation tokens
 - `validate_trustlink`: Verifies token authenticity and scope
