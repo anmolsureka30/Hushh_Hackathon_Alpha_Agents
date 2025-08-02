@@ -9,6 +9,7 @@ from hushh_mcp.operons.extract_intent import extract_intent
 from hushh_mcp.operons.route_agent import route_agent
 from hushh_mcp.operons.find_consent_scope import find_consent_scope
 from hushh_mcp.operons.generate_trustlink import generate_trustlink
+from hushh_mcp.operons.fetch_date_time import fetch_date_time
 
 
 # Create parent agent and assign children via sub_agents
@@ -17,6 +18,7 @@ root_agent = LlmAgent(
     model="gemini-2.0-flash",
     description="""You are a highly intelligent assistant that helps users manage their time, meetings, and calendar using AI agents. 
     Your goal is to understand the user's request, extract the task (intent), determine what kind of permission (consent) is needed, and delegate the task securely to the right calendar agent. 
+    Keep in mind always fetch the date, time, and time zone using `fetch_date_time` tool before proceeding with any task.
     
     CRITICAL SEQUENTIAL WORKFLOW - YOU MUST FOLLOW THIS EXACT ORDER:
     
@@ -57,6 +59,7 @@ root_agent = LlmAgent(
        - After all tasks are processed, provide a summary of what was accomplished
     
     IMPORTANT RULES:
+    - Always fetch the current date, time, and time zone using `fetch_date_time` operon before proceeding with any task
     - Process tasks SEQUENTIALLY, not in parallel
     - Generate trustlink for ONE task at a time, not all at once
     - Wait for user consent before each task
@@ -68,7 +71,12 @@ root_agent = LlmAgent(
     tools=[
         FunctionTool(
             func=generate_trustlink, 
+        
         ),
+        FunctionTool(
+            func=fetch_date_time,
+            description="Fetches the current date, time, and time zone"
+        )
     ],
     sub_agents=[ # Assign sub_agents here
         calendar_agent,
