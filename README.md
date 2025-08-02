@@ -14,31 +14,59 @@
 
 1. **Clone the main repository**
    ```bash
-   git clone https://github.com/itsArnavPrasad/Hushh_Hackathon_Alpha_Agents.git
+   git clone https://github.com/anmolsureka30/Hushh_Hackathon_Alpha_Agents.git
    cd Hushh_Hackathon_Alpha_Agents
    ```
 
-2. **Clone the Google Calendar MCP server**
+2. **Create OAuth2 credentials**
+   - Create your own OAuth2 keys following Google's authentication documentation
+   - Configure the necessary API credentials for Google Calendar and other Google services
+   - Update your environment variables accordingly
+### Google Cloud Setup
+   - Go to the Google Cloud Console
+   - Create a new project or select an existing one.
+   - Enable the Google Calendar API for your project. Ensure that the right project is selected from the top bar before enabling the API.
+   - Create OAuth 2.0 credentials:
+   - Go to Credentials
+   - Click "Create Credentials" > "OAuth client ID"
+   - Choose "User data" for the type of data that the app will be accessing
+   - Add your app name and contact information
+   - Add the following scopes (optional):
+   - https://www.googleapis.com/auth/calendar.events and https://www.googleapis.com/auth/calendar
+   - Select "Desktop app" as the application type (Important!)
+   - Save the auth key, you'll need to add its path to the JSON in the next step
+   - Add your email address as a test user under the Audience screen
+   - Note: it might take a few minutes for the test user to be added. The OAuth consent will not allow you to proceed until the test user has propagated.
+   - Note about test mode: While an app is in test mode the auth tokens will expire after 1 week and need to be refreshed.
+
+3. **Clone the Google Calendar MCP server**
    ```bash
    cd external_mcps
    git clone https://github.com/nspady/google-calendar-mcp.git
    cd ..
    ```
 
-3. **Set up and run the MCP server**
-   Follow the Docker setup instructions for the Google Calendar MCP server:
+4. **Set up and run the MCP server**
+   Follow the Docker setup instructions for the Google Calendar MCP server.:
    https://github.com/nspady/google-calendar-mcp/blob/main/docs/docker.md
 
-4. **Clone and set up the Google ADK Web**
+5. **Clone and set up the Google ADK Web**
    ```bash
    git clone https://github.com/google/adk-web.git
+   cd adk-web
    ```
-   Follow the documentation in the ADK Web repository to run the ADK web server.
+   ```bash
+   sudo npm install
+   ```
+   Execute the two commands in different terminals
+   ```bash
+   npm run serve --backend=http://localhost:8000
+   ```
+   ```bash
+   adk api_server --allow_origins=http://localhost:4200 --host=0.0.0.0 ../
+   ```
+   Follow the documentation in the ADK Web repository to run the ADK web server in case you get stuck.
 
-5. **Create OAuth2 credentials**
-   - Create your own OAuth2 keys following Google's authentication documentation
-   - Configure the necessary API credentials for Google Calendar and other Google services
-   - Update your environment variables accordingly
 
 6. **Install project dependencies**
    ```bash
