@@ -37,6 +37,7 @@ async def generate_consent_token(
         scope_enum = scope
 
     # Issue the token
+    print(f"CONSOLEEE: Issuing consent token for user {user_id} with scope {scope_enum}")
     token_obj: HushhConsentToken = issue_token(
         user_id=user_id,
         agent_id=agent_id,
