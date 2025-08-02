@@ -10,7 +10,7 @@ from hushh_mcp.operons.route_agent import route_agent
 from hushh_mcp.operons.find_consent_scope import find_consent_scope
 from hushh_mcp.operons.generate_trustlink import generate_trustlink
 from hushh_mcp.operons.fetch_date_time import fetch_date_time
-
+from hushh_mcp.agents.calendar_executor_loop_agent.index import calendar_executor_loop_agent
 
 # Create parent agent and assign children via sub_agents
 root_agent = LlmAgent(
@@ -33,52 +33,25 @@ root_agent = LlmAgent(
        - Store the returned task list for sequential processing
     
     3. SEQUENTIAL TASK PROCESSING (FOR EACH TASK ONE BY ONE):
-       For each task in the list (process ONE task at a time):
-       
-       a) ASK FOR CONSENT:
-          - Present the current task to the user
-          - Clearly explain what this specific task will do
-          - Ask: "Do you give consent for me to proceed with this task?"
-          - Wait for user response
-       
-       b) IF USER SAYS YES:
-          - Generate trustlink using `generate_trustlink` operon for THIS specific task only
-          - Delegate THIS task to the appropriate sub-agent using the generated trustlink
-          - Execute the task and get the result
-          - Show the result to the user
-       
-       c) IF USER SAYS NO:
-          - Skip this task
-          - Move to the next task
-       
-       d) MOVE TO NEXT TASK:
-          - Only after completing (or skipping) the current task, move to the next one
-          - Repeat steps 3a-3d for the next task
-    
+      Send the task list to the calendar_executor_loop_agent, which will handle the sequential processing of each task.       
+      
     4. COMPLETION:
        - After all tasks are processed, provide a summary of what was accomplished
     
     IMPORTANT RULES:
     - Always fetch the current date, time, and time zone using `fetch_date_time` operon before proceeding with any task
     - Process tasks SEQUENTIALLY, not in parallel
-    - Generate trustlink for ONE task at a time, not all at once
-    - Wait for user consent before each task
-    - Complete one task fully before moving to the next
-    - Never batch process multiple tasks together
-    - Always ask for consent before generating trustlink (except for task_list_pipeline)
-    
+    - after the task_pipeline agent has broken down the tasks along with the subagents operons and scopes , send them to the calendar_executor_loop_agent
+    - The calendar_executor_loop_agent will handle the orchestration of tasks, including trustlink generation and validation, and will ensure proper consent flow for each individual task.    
     Your goal is to help users automate their calendar and scheduling needs with maximum precision, minimum permissions, and zero friction while ensuring proper consent flow for each individual task.""",
+
     tools=[
-        FunctionTool(
-            func=generate_trustlink, 
-        
-        ),
         FunctionTool(
             func=fetch_date_time,
         )
     ],
     sub_agents=[ # Assign sub_agents here
-        calendar_agent,
+        calendar_executor_loop_agent,  # This is the orchestrator agent
         task_list_pipeline
-    ]
+    ],
 )

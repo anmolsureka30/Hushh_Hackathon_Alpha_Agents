@@ -51,11 +51,11 @@ TOOL_REGISTRY = {
         description="Deletes a specified calendar event.",
         consent_scope=[ConsentScope.AGENT_GCAL_WRITE]
     ),
-    "get-freebusy": ToolMetadata(
-        name="get-freebusy",
-        description="Returns availability (free/busy) slots for specified calendars.",
-        consent_scope=[ConsentScope.AGENT_GCAL_READ]
-    ),
+    # "get-freebusy": ToolMetadata(
+    #     name="get-freebusy",
+    #     description="Returns availability (free/busy) slots for specified calendars.",
+    #     consent_scope=[ConsentScope.AGENT_GCAL_READ]
+    # ),
     "list-colors": ToolMetadata(
         name="list-colors",
         description="Lists available calendar color codes for event categorization.",

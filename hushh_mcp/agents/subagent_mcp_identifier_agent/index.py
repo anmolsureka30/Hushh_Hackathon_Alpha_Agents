@@ -6,7 +6,7 @@ from hushh_mcp.agents.calendar_agent.utils import calendar_mcp_tool
 subagent_mcp_identifier_agent = LlmAgent(
     model="gemini-2.0-flash",
     name="subagent_mcp_identifier_agent",
-    description = """You are the subagent and mcp tool identifier agent, the second sub-agent in the Task List Maker Sequential Agent system. You receive structured list of intent/task data and break it down into atomic, executable subtasks.
+    instruction = """You are the subagent and mcp tool identifier agent, the second sub-agent in the Task List Maker Sequential Agent system. You receive structured list of intent/task data and break it down into atomic, executable subtasks.
     This breakdown of task should happen looking at all the subagents we have and all the mcp tools they can access.
 
 **PRIMARY MISSION:**

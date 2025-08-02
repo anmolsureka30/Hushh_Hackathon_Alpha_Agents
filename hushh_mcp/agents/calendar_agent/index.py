@@ -14,41 +14,28 @@ from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPServerPa
 calendar_agent = LlmAgent(
     name="calendar_agent",
     model="gemini-2.0-flash", 
-    instruction="You are a helpful assistant. Answer user questions using Google Search when needed.",
-    description="An agent which facilitates interaction with a calendar like google calendar",
-    # tools=[google_search] add mcp here
+    description="An agent which facilitates interaction with google calendar.",
+    instruction="""
+    An agent which facilitates interaction with google calendar. 
+    You will receive a task from the previous agent, you have to focus on the task whose status is "in_progress".
+    ONLY DO THE TASK WHICH IS IN_PROGRESS.
+    You will receive a trustlink from the previous agent, you have to validate the trustlink
+    ALWAYS CALL THE VALIDATE_TRUSTLINK OPERON BEFORE ANY OPERATION TO ENSURE THE USER HAS GIVEN CONSENT.
+    If the trustlink is not valid, do not proceed with any operation.
+    If the trustlink is valid, proceed with the operation.
+    IMPORTANT: You must always validate the trustlink before proceeding with any operation.
+    PERFORM ONLY ONE TASK PER VALIDATION OF TRUSTLINK.
+    AS Soon AS MCP Is CALLED AND TASK IS COMPLETED , Transfer TO CALENDAR_EXECUTOR_LOOP_AGENT 
+  
+    """,
     tools=[
         FunctionTool(
             func=validate_trustlink,
         ),
-        # FunctionTool(
-        #     func=detect_available_slots,
-        # ),
-        # MCPToolset(
-        #     connection_params=StdioConnectionParams(server_params={
-        #             "command": "npx",
-        #             "args": ["@cocal/google-calendar-mcp"],
-        #             "env": {
-        #                 "GOOGLE_OAUTH_CREDENTIALS": "/Users/arnavprasad/Desktop/gcp-oauth.keys.json"
-        #             },
-        #     }
-        #     ),
-        #     # You can filter for specific Maps tools if needed:
-        #     # tool_filter=['get_directions', 'find_place_by_id']
-        # )
         MCPToolset(
             connection_params=StreamableHTTPServerParams(
                 url='http://localhost:3000/',
             ),
-            # don't want agent to do write operation
-            # you can also do below
-            # tool_filter=lambda tool, ctx=None: tool.name
-            # not in [
-            #     'write_file',
-            #     'edit_file',
-            #     'create_directory',
-            #     'move_file',
-            # ],
             tool_filter=[
                 'list-calendars',
                 'list-events',
@@ -56,7 +43,7 @@ calendar_agent = LlmAgent(
                 'create-event',
                 'update-event',
                 'delete-event',
-                'get-freebusy',
+                # 'get-freebusy',
                 'list-colors',
             ],
         )

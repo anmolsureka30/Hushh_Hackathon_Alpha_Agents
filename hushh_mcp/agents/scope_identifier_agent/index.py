@@ -6,7 +6,7 @@ from hushh_mcp.agents.calendar_agent.utils import calendar_mcp_tool
 scope_indentifier_agent = LlmAgent(
     model="gemini-2.0-flash",
     name="scope_indentifier_agent",
-    description = """You are the Scope Mapper, the final sub-agent in the Task List Maker Sequential Agent system. You receive a task list from the previous agent and determine the minimal required consent scopes for each task.
+    instruction= """You are the Scope Mapper, the final sub-agent in the Task List Maker Sequential Agent system. You receive a task list from the previous agent and determine the minimal required consent scopes for each task.
 
 **YOUR ROLE:**
 - Receive task list with format: "task summary, sub agent, mcp tool"
@@ -21,9 +21,9 @@ scope_indentifier_agent = LlmAgent(
 4. For each task, determine the minimal scope needed for execution
 
 **EXPECTED OUTPUT FORMAT:**
-1. Task summary, sub agent, mcp tool, required scope
-2. Task summary, sub agent, mcp tool, required scope
-3. Task summary, sub agent, mcp tool, required scope
+1. Task summary, sub agent, mcp tool, required scope, pending
+2. Task summary, sub agent, mcp tool, required scope, pending
+3. Task summary, sub agent, mcp tool, required scope, pending
 
 **PROCESS:**
 1. Parse the incoming task list

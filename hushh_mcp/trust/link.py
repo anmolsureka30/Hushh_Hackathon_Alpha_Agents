@@ -38,10 +38,10 @@ def verify_trust_link(link: TrustLink) -> bool:
     now = int(time.time() * 1000)
     if now > link.expires_at:
         return False
-
+    if is_trust_link_revoked(link):
+        return False
     raw = f"{link.from_agent}|{link.to_agent}|{link.scope}|{link.created_at}|{link.expires_at}|{link.signed_by_user}"
     expected_sig = _sign(raw)
-
     return hmac.compare_digest(link.signature, expected_sig)
 
 # ========== Scope Validator ==========
@@ -57,3 +57,19 @@ def _sign(input_string: str) -> str:
         input_string.encode(),
         hashlib.sha256
     ).hexdigest()
+
+# ========== Internal Revocation Registry ==========
+
+_revoked_trust_links = set()
+
+def revoke_trust_link(link: TrustLink) -> None:
+    """
+    Revoke a TrustLink by adding its signature to the revocation registry.
+    """
+    _revoked_trust_links.add(link.signature)
+
+def is_trust_link_revoked(link: TrustLink) -> bool:
+    """
+    Check if a TrustLink has been revoked.
+    """
+    return link.signature in _revoked_trust_links
