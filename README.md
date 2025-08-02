@@ -17,6 +17,7 @@
    git clone https://github.com/anmolsureka30/Hushh_Hackathon_Alpha_Agents.git
    cd Hushh_Hackathon_Alpha_Agents
    ```
+   Paste your gemini api key in the .env file.
 
 2. **Create OAuth2 credentials**
    - Create your own OAuth2 keys following Google's authentication documentation
