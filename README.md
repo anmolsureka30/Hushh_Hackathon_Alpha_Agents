@@ -48,6 +48,7 @@
 
    #### HTTP Mode:
    ```bash
+   mkdir external_mcps
    cd external_mcps
    git clone https://github.com/nspady/google-calendar-mcp.git
    cd google-calendar-mcp
@@ -64,21 +65,22 @@
    echo "GOOGLE_OAUTH_CREDENTIALS=./gcp-oauth.keys.json" >> .env
    ```
 
-   Go to your running docker container and run this command:
-   ```bash
-   npm start
-   ```
 
    #### Start and Authenticate
    ```bash
    # Build and start the server in HTTP mode
+   npm install
    docker compose up -d
+   
 
    # Authenticate (one-time setup)
    docker compose exec calendar-mcp npm run auth
    # This will show authentication URLs (visit the displayed URL)
    # This step only needs to be done once unless the app is in testing mode
    # in which case the tokens expire after 7 days 
+   
+   # Go to your running docker container and run this command:
+   npm start
 
    # Verify server is running
    curl http://localhost:3000/health
@@ -87,6 +89,7 @@
 
 4. **Install project dependencies**
    ```bash
+   cd ../..
    pip install -r requirements.txt
    ```
 
